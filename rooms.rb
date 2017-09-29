@@ -16,16 +16,32 @@ class Rooms
         return @songlist.map{|song| song.name()}
     end
 
+    def checkout_guest(name)
+        for guest in @guestlist
+            if guest.name() == name
+                @guestlist.delete(guest)
+            end
+        end
+    end
+
+    def checkout_all()
+        @guestlist = []
+    end
+
+
     def add_guest(guest)
         if @guestlist.length() == @size
             return "Sorry, room is full!"
         else
             @guestlist << guest
+            @guestlist.map { |person| person.name() }
+
         end
     end
 
     def total_bill()
         @guestlist.each { |guest| @total_bill += guest.bill() }
+        return @total_bill
     end
 
     def display_songlist()

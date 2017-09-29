@@ -69,18 +69,52 @@ class TestRooms < MiniTest::Test
 
     end
 
-    def test_room_size()
+    def test_room_properties()
         assert_equal(2, @room1.size())
         assert_equal(3, @room2.size())
+        assert_equal(25, @room2.price())
+        actual = @room2.guestlist().map { |guest| guest.name()}
+        assert_equal(["Will Smith", "Tom Hanks"], actual)
     end
+
 
     def test_add_song()
         actual1 = @room1.add_song(@fave_song1)
-        assert_equal(["Never Gonna Give You Up", "Hey Jude", "Don't Stop Believin'", "Shake it off", "Bohemian Rhapsody", "Eye of the Tiger", "Sweet Caroline"], actual1)
-
+        expected1 = ["Never Gonna Give You Up",
+            "Hey Jude", "Don't Stop Believin'",
+            "Shake it off", "Bohemian Rhapsody",
+            "Eye of the Tiger", "Sweet Caroline"]
+        assert_equal(expected1, actual1)
     end
 
+    def test_checkout()
+        @room2.checkout_guest("Will Smith")
+        guests = @room2.guestlist().length
+        assert_equal(1, guests)
+        @room2.checkout_all()
+        assert_equal([], @room2.guestlist())
+    end
 
+    def test_add_guest()
+        assert_equal("Sorry, room is full!", @room1.add_guest(@new_guest1))
+        expected = ["Will Smith", "Tom Hanks", "Third Wheel"]
+        assert_equal(expected, @room2.add_guest(@new_guest1))
+    end
 
+    def test_total_bill()
+        @guest3.buy(@food1)
+        @guest4.buy(@food2)
+        assert_equal(38.5, @room2.total_bill())
+    end
+
+    def test_display_songlist()
+        @room1.add_song(@fave_song1)
+        actual = @room1.display_songlist()
+        expected = ["Never Gonna Give You Up",
+            "Hey Jude", "Don't Stop Believin'",
+            "Shake it off", "Bohemian Rhapsody",
+            "Eye of the Tiger", "Sweet Caroline"]
+        assert_equal(expected, actual)
+    end
 
 end
