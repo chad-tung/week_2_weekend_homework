@@ -18,4 +18,11 @@ class Ui
         answer = gets.chomp()
     end
 
+
 end
+
+def setup()
+    @ui = Ui.new()
+end
+
+@ui.welcome()

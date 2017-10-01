@@ -16,8 +16,8 @@ class TestGuest < MiniTest::Test
         @fave_song1 = Song.new("Sweet Caroline", "Neil Diamond")
         @fave_song2 = Song.new("Close to You", "Carpenters")
 
-        @guest1 = Guest.new("Michael", @fave_song1, 18)
-        @guest2 = Guest.new("Caroline", @fave_song2, 17)
+        @guest1 = Guest.new("Michael", @fave_song1, 18, 40)
+        @guest2 = Guest.new("Caroline", @fave_song2, 17, 40)
     end
 
     def test_get_guest_info()
@@ -34,16 +34,18 @@ class TestGuest < MiniTest::Test
         @guest2.buy(@drink2)
         assert_equal(10.60, @guest1.bill())
         assert_equal(6.20, @guest2.bill())
+        assert_equal(29.40, @guest1.funds())
+        assert_equal(33.80, @guest2.funds())
         assert_equal(["Cheeseburger", "Peroni"], @guest1.order())
         assert_equal(["Strawberries and Cream", "Fruit Juice"], @guest2.order())
     end
 
-    # def test_song_request()
-    #     @guest2.request_song("Happy Birthday", "Anon")
-    #     @guest2.request_song("Clocks", "Coldplay")
-    #     @guest2.request_song("Wrecking Ball", "Miley Cyrus")
-    #     assert_equal(1.50, @guest2.bill())
-    # end
+    def test_song_request()
+        @guest2.request_song("Happy Birthday", "Anon")
+        @guest2.request_song("Clocks", "Coldplay")
+        @guest2.request_song("Wrecking Ball", "Miley Cyrus")
+        assert_equal(1.50, @guest2.bill())
+    end
 
     def test_transaction_declined()
         assert_equal("You won't like this... Order something else.", @guest1.buy(@food2))
