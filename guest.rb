@@ -28,6 +28,4 @@ class Guest
             @funds -= item.price()
         end
     end
-
-
 end

@@ -7,4 +7,7 @@ class Drink
         @size = size
         @tag = tag
     end
+
+    def display_drinks()
+    end
 end

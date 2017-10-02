@@ -9,3 +9,4 @@ class Bar
     def run_business()
         @ui.welcome()
     end
+end

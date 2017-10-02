@@ -35,7 +35,6 @@ class Rooms
         else
             @guestlist << guest
             @guestlist.map { |person| person.name() }
-
         end
     end
 
@@ -44,8 +43,24 @@ class Rooms
         return @total_bill
     end
 
+    # def split_bill()
+    #     for guest in @guestlist
+    #         guest.bill() += @price/@guestlist.length()
+    #     end
+    # end
+
     def display_songlist()
         @songlist.map { |song| song.name() }
+    end
+
+    def guest_fave_cheer()
+        for guest in @guestlist
+            if @songlist.include?(guest.favourite_song())
+                return "Whoo!"
+            else
+                return "Oh, they don't have my favourite song..."
+            end
+        end
     end
 
 end

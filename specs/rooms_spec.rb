@@ -43,15 +43,15 @@ class TestRooms < MiniTest::Test
 
 
         @guestlist1 = [
-            @guest1 = Guest.new("Michael", @fave_song1, 18),
-            @guest2 = Guest.new("Caroline", @fave_song2, 17)
+            @guest1 = Guest.new("Michael", @fave_song1, 18, 40),
+            @guest2 = Guest.new("Caroline", @fave_song2, 17, 40)
         ]
 
-        @new_guest1 = Guest.new("Third Wheel", @fave_song3, 18)
+        @new_guest1 = Guest.new("Third Wheel", @fave_song3, 18, 30)
 
         @guestlist2 = [
-            @guest3 = Guest.new("Will Smith", @fave_song4, 50),
-            @guest4 = Guest.new("Tom Hanks", @fave_song5, 56)
+            @guest3 = Guest.new("Will Smith", @fave_song4, 50, 100),
+            @guest4 = Guest.new("Tom Hanks", @fave_song5, 56, 100)
         ]
 
         @songlist = [
@@ -65,14 +65,14 @@ class TestRooms < MiniTest::Test
 
         @room1 = Rooms.new(2, 20, @songlist, @guestlist1)
 
-        @room2 = Rooms.new(3, 25, @songlist, @guestlist2)
+        @room2 = Rooms.new(3, 24, @songlist, @guestlist2)
 
     end
 
     def test_room_properties()
         assert_equal(2, @room1.size())
         assert_equal(3, @room2.size())
-        assert_equal(25, @room2.price())
+        assert_equal(24, @room2.price())
         actual = @room2.guestlist().map { |guest| guest.name()}
         assert_equal(["Will Smith", "Tom Hanks"], actual)
     end
@@ -104,8 +104,14 @@ class TestRooms < MiniTest::Test
     def test_total_bill()
         @guest3.buy(@food1)
         @guest4.buy(@food2)
-        assert_equal(38.5, @room2.total_bill())
+        assert_equal(37.5, @room2.total_bill())
     end
+
+    # def test_split_bill()
+    #     @guest3.buy(@food1)
+    #     @guest4.buy(@food2)
+    #     @room1.split_bill()
+    # end
 
     def test_display_songlist()
         @room1.add_song(@fave_song1)
@@ -117,4 +123,9 @@ class TestRooms < MiniTest::Test
         assert_equal(expected, actual)
     end
 
+    def test_guest_fave_cheer()
+        assert_equal("Oh, they don't have my favourite song...", @room1.guest_fave_cheer())
+        @room1.add_song(@fave_song1)
+        assert_equal("Whoo!", @room1.guest_fave_cheer())
+    end
 end
